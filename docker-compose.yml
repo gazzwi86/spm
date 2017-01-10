@@ -1,0 +1,41 @@
+version: '2'
+
+services:
+  wordpress:
+    container_name: spmfrontend
+    hostname: spmfrontend
+    domainname: spmfrontend.local
+    image: wordpress:latest
+    restart: always
+    ports:
+      - 8080:80
+
+    # creates an entry in /etc/hosts
+    extra_hosts:
+      - "ic-mysql.local:172.18.0.1"
+
+    # Sets up the env, passwords etc
+    environment:
+      WORDPRESS_DB_HOST: ic-mysql.local:9306
+      WORDPRESS_DB_USER: root
+      WORDPRESS_DB_PASSWORD: root
+      WORDPRESS_DB_NAME: spm
+      WORDPRESS_TABLE_PREFIX: spm
+
+    # sets the working directory
+    working_dir: /var/www/html
+
+    # creates a link to the volume local to the file
+    volumes:
+      - ./wp-content:/var/www/html/wp-content
+      - uploads:/var/www/html/wp-content/uploads
+
+# creates a volume to persist data across nodes
+volumes:
+  uploads:
+
+# Any networks the container should be associated with
+networks:
+  default:
+    external:
+      name: ic-network

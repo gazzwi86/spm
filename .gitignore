@@ -1,0 +1,11 @@
+.DS_Store
+node_modules
+.tmp
+npm-debug.log
+
+# Ignore W3 Total Cache files
+wp-content/advanced-cache.php
+wp-content/cache/*
+wp-content/db.php
+wp-content/object-cache.php
+wp-content/w3tc-config/*
